@@ -5,7 +5,8 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const flash = require('connect-flash');
 const session = require('express-session');
-const MongoStore = require("connect-mongo");
+// const MongoStore = require("connect-mongo");
+const pgSession = require("connect-pg-simple")(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const methodOverride = require("method-override");
@@ -25,19 +26,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret'
-const dbURL = process.env.DB_URL || "mongodb://localhost:27017/pantryTracker"
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
+// const dbURL = process.env.DBURL || "mongodb://localhost:27017/pantryTracker";
 
 // session storage in MongoDB
-const store = MongoStore.create({
-    mongoUrl: dbURL,
-    touchAfter: 24 * 60 * 60,
-    crypto: {
-        secret: secret,
-    }
-});
+// const store = MongoStore.create({
+//     mongoUrl: dbURL,
+//     touchAfter: 24 * 60 * 60,
+//     crypto: {
+//         secret: secret,
+//     }
+// });
+
 const sessionConfig = {
-    store: store,
+    store: new pgSession({
+        pool: db,
+        tableName: "session",
+    }),
     name: 'SID',
     secret: secret,
     resave: false,
@@ -185,7 +190,7 @@ app.get("/login", (req, res) => {
 });
 
 // logging in
-app.post("/login", passport.authenticate('local', { failureflash: true, failureredirect: '/login' }), (req, res) => {
+app.post("/login", passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', 'welcome back!');
     const redirectUrl = req.session.returnTo || '/';
     delete req.session.returnTo;

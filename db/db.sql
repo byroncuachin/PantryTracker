@@ -19,15 +19,15 @@ CREATE TABLE users (
   "password" VARCHAR(500)
 );
 
--- -- Sessions table
--- CREATE TABLE "session" (
---   "sid" varchar NOT NULL COLLATE "default",
--- 	"sess" json NOT NULL,
--- 	"expire" timestamp(6) NOT NULL
--- )
--- WITH (OIDS=FALSE);
--- ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
--- CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+-- Sessions table
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 -- Sample insert
 -- INSERT INTO products(name, category, qty) VALUES('Chicken', 'Meat', '2');
