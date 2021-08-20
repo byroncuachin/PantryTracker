@@ -5,7 +5,6 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const flash = require('connect-flash');
 const session = require('express-session');
-// const MongoStore = require("connect-mongo");
 const pgSession = require("connect-pg-simple")(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -27,17 +26,8 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret';
-// const dbURL = process.env.DBURL || "mongodb://localhost:27017/pantryTracker";
 
-// session storage in MongoDB
-// const store = MongoStore.create({
-//     mongoUrl: dbURL,
-//     touchAfter: 24 * 60 * 60,
-//     crypto: {
-//         secret: secret,
-//     }
-// });
-
+// session storage
 const sessionConfig = {
     store: new pgSession({
         pool: db,
@@ -60,7 +50,6 @@ app.use(flash());
 // passport config
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -178,7 +167,7 @@ app.post("/register", catchAsync(async (req, res) => {
         req.flash('success', 'Welcome to PantryTracker!');
         res.redirect('/');
     } catch (e) {
-        // e.message = "A user with the given email, username, or password is already registered";
+        e.message = "A user with the given email, username, or password is already registered";
         req.flash('error', e.message);
         res.redirect('/register');
     }
