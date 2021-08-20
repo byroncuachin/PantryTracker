@@ -1,0 +1,22 @@
+<%- layout('/layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/users.css">
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card p-2" style="width: 18rem">
+        <div class="text-center p-4">
+            <i class="far fa-address-card card-img-top loginIcon"></i>
+        </div>
+        <div class="card-body">
+            <h1 class="bold">Register</h1>
+            <form action="/register" class="validated-form" method="POST" novalidate>
+                <input class="form-control my-3" type="email" name="email" id="" placeholder="Email" required>
+                <input class="form-control my-3" type="text" name="username" id="" placeholder="Username" required>
+                <input class="form-control my-3" type="password" name="password" id="" placeholder="Password" required>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

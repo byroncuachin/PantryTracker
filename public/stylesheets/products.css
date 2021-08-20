@@ -1,0 +1,20 @@
+td.deleteButton{
+    padding: 0;
+    width: 5%;
+}
+
+#ranOutProducts{
+    border-color: #ddbea9;
+    color: #cb997e;
+}
+
+#ranOutProducts:hover, #ranOutProducts:active{
+    border-color: #ddbea9;
+    background-color: #cb997e;
+    color: white;
+}
+
+#addProduct{
+    background-color: #b7b7a4;
+}
+

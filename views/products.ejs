@@ -1,0 +1,74 @@
+<%- layout("/layouts/boilerplate") %>
+<link rel="stylesheet" href="/stylesheets/products.css">
+
+<div class="d-flex flex-column justify-content-center mt-4 mx-5">
+    <% if(currentUser){ %>
+    <!-- Products with qty 0 -->
+    <div class="d-flex justify-content-center">
+        <a href="/ranOut" class="btn btn-lg btn-outline p-3" id="ranOutProducts">Products you Have Ran
+            Out of</a>
+    </div>
+
+    <!-- Adding a product -->
+    <label for="inputProductName" class="form-label bold mt-4">Add a Product</label>
+    <form action="/" class="validated-form" method="POST" novalidate>
+        <div class="input-group">
+            <input type="text" class="form-control" name="product[name]" placeholder="Name of Product"
+                id="inputProductName" required>
+            <select class="form-select" name="product[category]" aria-label="Default select example">
+                <option value="Fruits" selected>Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Meat">Meat</option>
+                <option value="Seafood">Seafood</option>
+                <option value="Condiments">Condiments</option>
+                <option value="Baking">Baking</option>
+                <option value="Grains">Grains</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Seasoning">Seasoning</option>
+                <option value="Spices">Spices</option>
+            </select>
+            <input type="number" class="form-control" name="product[qty]" id="qtyInput" placeholder="Qty" min=0
+                oninput="validity.valid||(value='');" required>
+            <button class="btn" id="addProduct">Add</button>
+        </div>
+    </form>
+    <% } else { %>
+    <h1 class="text-center">Welcome! Please login first before using the app.</h1>
+    <% } %>
+    <!-- Listing products -->
+    <div class="container text-center mt-4 px-0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let product of products){ %>
+                <tr>
+                    <th scope="row"><%= product.name %></th>
+                    <td><%= product.category %></td>
+                    <td>
+                        <% if(product.qty > 0){ %>
+                        <form action="/<%= product.id %>/decrement?_method=PUT" class="d-inline-flex" method="POST">
+                            <button class="btn p-0"><i class="fas fa-minus-circle"></i></button>
+                        </form>
+                        <% } %>
+                        <span class="mx-2"><%= product.qty %></span>
+                        <form action="/<%= product.id %>/increment?_method=PUT" class="d-inline-flex" method="POST">
+                            <button class="btn p-0"><i class="fas fa-plus-circle"></i></button>
+                        </form>
+                    </td>
+                    <form action="/<%= product.id %>?_method=DELETE" method="POST">
+                        <td class="deleteButton">
+                            <button class="btn"><i class="far fa-trash-alt"></i></button>
+                        </td>
+                    </form>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+nav{
+    background-color: #ffffff;
+}
+
+a.navbar-brand{
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.6rem;
+}
+
+.icons{
+    color: black;
+    font-size: 2rem;
+}
+
+.container-fluid{
+    margin: auto 15%;
+}
+
+.navbarPfp{
+    object-fit: cover;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+}
+
+.search{
+    width: 18rem;
+}
+
+@media(max-width: 720px){
+    .search{
+        display: none;
+    }
+}
+

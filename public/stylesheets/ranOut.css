@@ -1,0 +1,7 @@
+li.list-group-item{
+    background-color: transparent;
+}
+
+ul.list-group{
+    max-height: 25rem;
+}
